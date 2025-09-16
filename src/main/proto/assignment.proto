@@ -1,0 +1,112 @@
+syntax = "proto3";
+option java_multiple_files = true;
+
+package dk.via.jpe.meatplant;
+
+// ===== DTOs (from the diagram) =====
+message DTOAnimal {
+  double weight = 1;
+  string type = 2;                 // e.g., species/breed
+  string registrationNumber = 3;   // PK
+}
+
+message DTOPart {
+  double weight = 1;
+  string partNumber = 2;           // PK
+  string animalRegistrationNumber = 3; // FK -> Animal
+  string trayNumber = 4;               // FK -> Tray (many parts per tray)
+  string partType = 5;                 // FK -> Type.name (dashed dependency in diagram)
+}
+
+message DTOTray {
+  double maxWeight = 1;
+  string trayNumber = 2;           // PK
+  double currentWeight = 3;
+  string productNumber = 4;        // when transferred, links to Product
+}
+
+message DTOProduct {
+  string productNumber = 1;        // PK
+}
+
+message DTOType {
+  string name = 1;                 // PK
+}
+
+// ===== Simple getters (planet-style) =====
+message GetAnimalRequest { string registrationNumber = 1; }
+message GetAnimalResponse { DTOAnimal animal = 1; }
+
+message GetAnimalsRequest {}
+message GetAnimalsResponse { repeated DTOAnimal animals = 1; }
+
+message GetPartRequest { string partNumber = 1; }
+message GetPartResponse { DTOPart part = 1; }
+
+message GetPartsRequest {}
+message GetPartsResponse { repeated DTOPart parts = 1; }
+
+message GetTrayRequest { string trayNumber = 1; }
+message GetTrayResponse { DTOTray tray = 1; }
+
+message GetTraysRequest {}
+message GetTraysResponse { repeated DTOTray trays = 1; }
+
+message GetProductRequest { string productNumber = 1; }
+message GetProductResponse { DTOProduct product = 1; }
+
+message GetProductsRequest {}
+message GetProductsResponse { repeated DTOProduct products = 1; }
+
+message GetTypeRequest { string name = 1; }
+message GetTypeResponse { DTOType type = 1; }
+
+message GetTypesRequest {}
+message GetTypesResponse { repeated DTOType types = 1; }
+
+// ===== Relationship queries (reflecting multiplicities) =====
+// Animal 1 -> * Part (cut into)
+message GetPartsForAnimalRequest { string registrationNumber = 1; }
+message GetPartsForAnimalResponse { repeated DTOPart parts = 1; }
+
+// Part * -> 1 Tray
+message GetTrayForPartRequest { string partNumber = 1; }
+message GetTrayForPartResponse { DTOTray tray = 1; }
+
+// Tray 1 <- * Part
+message GetPartsOnTrayRequest { string trayNumber = 1; }
+message GetPartsOnTrayResponse { repeated DTOPart parts = 1; }
+
+// Product 1 <- * Part (consist of)
+message GetPartsForProductRequest { string productNumber = 1; }
+message GetPartsForProductResponse { repeated DTOPart parts = 1; }
+
+// Tray * -> 1 Product (transfers to)
+message GetProductForTrayRequest { string trayNumber = 1; }
+message GetProductForTrayResponse { DTOProduct product = 1; }
+
+// ===== Service =====
+service MeatPlantService {
+  // Basics
+  rpc getAnimal (GetAnimalRequest) returns (GetAnimalResponse);
+  rpc getAnimals (GetAnimalsRequest) returns (GetAnimalsResponse);
+
+  rpc getPart (GetPartRequest) returns (GetPartResponse);
+  rpc getParts (GetPartsRequest) returns (GetPartsResponse);
+
+  rpc getTray (GetTrayRequest) returns (GetTrayResponse);
+  rpc getTrays (GetTraysRequest) returns (GetTraysResponse);
+
+  rpc getProduct (GetProductRequest) returns (GetProductResponse);
+  rpc getProducts (GetProductsRequest) returns (GetProductsResponse);
+
+  rpc getType (GetTypeRequest) returns (GetTypeResponse);
+  rpc getTypes (GetTypesRequest) returns (GetTypesResponse);
+
+  // Relationships
+  rpc getPartsForAnimal (GetPartsForAnimalRequest) returns (GetPartsForAnimalResponse);
+  rpc getTrayForPart (GetTrayForPartRequest) returns (GetTrayForPartResponse);
+  rpc getPartsOnTray (GetPartsOnTrayRequest) returns (GetPartsOnTrayResponse);
+  rpc getProductForTray (GetProductForTrayRequest) returns (GetProductForTrayResponse);
+  rpc getPartsForProduct (GetPartsForProductRequest) returns (GetPartsForProductResponse);
+}
