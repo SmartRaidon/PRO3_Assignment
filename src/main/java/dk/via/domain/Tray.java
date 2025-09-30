@@ -4,18 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tray {
-    // private int trayNumber; // maybe we won't need this (these -> every id/number) if we use the 'serial' in dbs
+    private int trayNumber;
     private double maxCapacity;
     private double currentWeight;
     private List<Part> parts;
 
-    public Tray(double maxCapacity)
+    public Tray(double maxCapacity, int trayNumber)
     {
-        // this.trayNumber = trayNumber;
+        this.trayNumber = trayNumber;
         this.maxCapacity = maxCapacity;
         this.currentWeight = 0;
         this.parts = new ArrayList<Part>();
     }
+
+    public int getTrayNumber() {
+        return trayNumber;
+    }
+
+    public void setTrayNumber(int trayNumber) {
+        this.trayNumber = trayNumber;
+    }
+
+
 
     public double getMaxCapacity()
     {
@@ -39,9 +49,12 @@ public class Tray {
 
     public void addWeight(double weight)
     {
-        if(weight < maxCapacity)
+
+        double sum=0;
+        sum= currentWeight+weight;
+        if(sum < maxCapacity)
         {
-            currentWeight += weight;
+            currentWeight = sum;
         }
         else {
             System.out.println("Maximum capacity exceeded");

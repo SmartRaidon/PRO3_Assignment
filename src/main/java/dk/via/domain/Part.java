@@ -3,6 +3,7 @@ package dk.via.domain;
 public class Part {
     private int regNumber;
     private int originNumber;
+
     private double weight;
 
     public Part(int regNumber, int originNumber, double weight)
