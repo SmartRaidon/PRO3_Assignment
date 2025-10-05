@@ -14,9 +14,8 @@ public class AnimalServiceImpl implements AnimalService {
         animalDAO = animalDao;
     }
     @Override
-    public Animal registerAnimal(String regNumber, double weight) {
-        Animal animal = new Animal();
-        return animalDAO.create(animal);
+    public Animal registerAnimal(String type, double weight) {
+        return null;
     }
 
     @Override
