@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface AnimalDAO {
 
-    Animal create(Animal animal);
-    Animal findById(int id);
-    List<Animal> findAll();
+    void create(Animal animal);
+    Animal getAnimalById(int id);
+    void delete(int id);
+    Animal update (Animal animal);
+    List<Animal> getAll();
 }

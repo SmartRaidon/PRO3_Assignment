@@ -1,7 +1,7 @@
 syntax = "proto3";
 option java_multiple_files = true;
 
-package dk.via.jpe.meatplant;
+package dk.via;
 
 // ===== DTOs (from the diagram) =====
 message DTOAnimal {
@@ -11,11 +11,12 @@ message DTOAnimal {
 }
 
 message DTOPart {
-  double weight = 1;
-  string partNumber = 2;           // PK
-  string animalRegistrationNumber = 3; // FK -> Animal
-  string trayNumber = 4;               // FK -> Tray (many parts per tray)
-  string partType = 5;                 // FK -> Type.name (dashed dependency in diagram)
+  int32 regNum = 1;
+  int32 trayNum = 2;
+  int32 originNum = 3;
+  int32 productNum = 4;
+  string type = 5;
+  double weight = 6;
 }
 
 message DTOTray {

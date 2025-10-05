@@ -10,42 +10,45 @@ DROP TABLE IF EXISTS product CASCADE;
 DROP TABLE IF EXISTS trayProduct CASCADE;
 
 CREATE TABLE IF NOT EXISTS animal (
-    regNum SERIAL,
-    weight INT,
-    PRIMARY KEY (regNum)
+    type varchar(30),
+    reg_num SERIAL,
+    weight double precision,
+    PRIMARY KEY (reg_num)
 );
 
 CREATE TABLE IF NOT EXISTS part (
-    regNum SERIAL,
-    trayNum INT,
-    originNum INT,
-    productNum INT,
+    reg_num SERIAL,
+    tray_num INT,
+    origin_num INT,
+    product_num INT,
     type VARCHAR(50),
-    weight INT,
-    PRIMARY KEY (regNum),
-    FOREIGN KEY (originNum) REFERENCES animal,
-    FOREIGN KEY (trayNum) REFERENCES tray,
-    FOREIGN KEY (productNum) REFERENCES product
+    weight double precision,
+    PRIMARY KEY (reg_num),
+    FOREIGN KEY (origin_num) REFERENCES animal(reg_num),
+    FOREIGN KEY (tray_num) REFERENCES tray(tray_num),
+    FOREIGN KEY (product_num) REFERENCES product(product_num)
 );
 
 CREATE TABLE IF NOT EXISTS tray (
-    trayNum SERIAL,
-    partType VARCHAR(50),
+    tray_num SERIAL,
+    part_type VARCHAR(50),
     capacity INT,
-    currentWeight INT,
-    PRIMARY KEY (trayNum)
+    current_weight INT,
+    PRIMARY KEY (tray_num)
 );
 
 CREATE TABLE IF NOT EXISTS product (
-    productNum SERIAL,
+    product_num SERIAL,
     type VARCHAR(50),
-    PRIMARY KEY (productNum)
+    PRIMARY KEY (product_num)
 );
 
 CREATE TABLE IF NOT EXISTS trayProduct (
-    trayNum INT,
-    productNum INT,
-    PRIMARY KEY (trayNum, productNum),
-    FOREIGN KEY (trayNum) REFERENCES tray,
-    FOREIGN KEY (productNum) REFERENCES product
-)
+    tray_num INT,
+    product_num INT,
+    PRIMARY KEY (tray_num, product_num),
+    FOREIGN KEY (tray_num) REFERENCES tray,
+    FOREIGN KEY (product_num) REFERENCES product
+);
+
+INSERT INTO pro3.animal (type, reg_num, weight) VALUES ('cow', 2, 100.00);

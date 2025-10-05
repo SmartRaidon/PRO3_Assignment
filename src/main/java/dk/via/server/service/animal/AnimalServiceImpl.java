@@ -21,12 +21,12 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal getAnimal(int id) {
-        return animalDAO.findById(id);
+        return animalDAO.getAnimalById(id);
 
     }
 
     @Override
     public List<Animal> getAllAnimals() {
-        return animalDAO.findAll();
+        return animalDAO.getAll();
     }
 }

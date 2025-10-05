@@ -41,4 +41,23 @@ public class Animal {
     {
         this.weight = weight;
     }
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "type='" + type +
+                ", regNumber=" + regNumber +
+                ", weight=" + weight +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || getClass() != obj.getClass())
+            return false;
+        Animal other = (Animal) obj;
+        return type.equals(other.type)
+                && regNumber == other.regNumber
+                && weight == other.weight;
+    }
 }
