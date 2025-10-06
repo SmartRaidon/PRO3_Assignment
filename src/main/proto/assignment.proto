@@ -3,11 +3,29 @@ option java_multiple_files = true;
 
 package dk.via;
 
-// ===== DTOs (from the diagram) =====
+
+
+service SlaughterHouse{
+  rpc getAnimal (GetAnimalRequest) returns (GetAnimalResponse);
+  rpc getAnimals (GetAnimalsRequest) returns (GetAnimalsResponse);
+
+  rpc getPart (GetPartRequest) returns (GetPartResponse);
+  rpc getParts (GetPartsRequest) returns (GetPartsResponse);
+
+  rpc getTray (GetTrayRequest) returns (GetTrayResponse);
+  rpc getTrays (GetTraysRequest) returns (GetTraysResponse);
+
+  rpc getProduct (GetProductRequest) returns (GetProductResponse);
+  rpc getProducts (GetProductsRequest) returns (GetProductsResponse);
+
+    }
+
+
 message DTOAnimal {
-  double weight = 1;
-  string type = 2;                 // e.g., species/breed
-  string registrationNumber = 3;   // PK
+
+  string type = 1;
+  double weight = 2;
+  int32 registrationNumber = 3;
 }
 
 message DTOPart {
@@ -20,21 +38,18 @@ message DTOPart {
 }
 
 message DTOTray {
-  double maxWeight = 1;
-  string trayNumber = 2;           // PK
-  double currentWeight = 3;
-  string productNumber = 4;        // when transferred, links to Product
+  int32 trayNumber =1;
+  double maxCapacity =2;
+  double currentWeight=3;
+  repeated DTOPart parts =4; //That repeated is used for lists :)
 }
 
 message DTOProduct {
-  string productNumber = 1;        // PK
+  string productNumber = 1;
+  repeated DTOPart parts =2;
 }
 
-message DTOType {
-  string name = 1;                 // PK
-}
 
-// ===== Simple getters (planet-style) =====
 message GetAnimalRequest { string registrationNumber = 1; }
 message GetAnimalResponse { DTOAnimal animal = 1; }
 
@@ -59,55 +74,6 @@ message GetProductResponse { DTOProduct product = 1; }
 message GetProductsRequest {}
 message GetProductsResponse { repeated DTOProduct products = 1; }
 
-message GetTypeRequest { string name = 1; }
-message GetTypeResponse { DTOType type = 1; }
 
-message GetTypesRequest {}
-message GetTypesResponse { repeated DTOType types = 1; }
 
-// ===== Relationship queries (reflecting multiplicities) =====
-// Animal 1 -> * Part (cut into)
-message GetPartsForAnimalRequest { string registrationNumber = 1; }
-message GetPartsForAnimalResponse { repeated DTOPart parts = 1; }
 
-// Part * -> 1 Tray
-message GetTrayForPartRequest { string partNumber = 1; }
-message GetTrayForPartResponse { DTOTray tray = 1; }
-
-// Tray 1 <- * Part
-message GetPartsOnTrayRequest { string trayNumber = 1; }
-message GetPartsOnTrayResponse { repeated DTOPart parts = 1; }
-
-// Product 1 <- * Part (consist of)
-message GetPartsForProductRequest { string productNumber = 1; }
-message GetPartsForProductResponse { repeated DTOPart parts = 1; }
-
-// Tray * -> 1 Product (transfers to)
-message GetProductForTrayRequest { string trayNumber = 1; }
-message GetProductForTrayResponse { DTOProduct product = 1; }
-
-// ===== Service =====
-service MeatPlantService {
-  // Basics
-  rpc getAnimal (GetAnimalRequest) returns (GetAnimalResponse);
-  rpc getAnimals (GetAnimalsRequest) returns (GetAnimalsResponse);
-
-  rpc getPart (GetPartRequest) returns (GetPartResponse);
-  rpc getParts (GetPartsRequest) returns (GetPartsResponse);
-
-  rpc getTray (GetTrayRequest) returns (GetTrayResponse);
-  rpc getTrays (GetTraysRequest) returns (GetTraysResponse);
-
-  rpc getProduct (GetProductRequest) returns (GetProductResponse);
-  rpc getProducts (GetProductsRequest) returns (GetProductsResponse);
-
-  rpc getType (GetTypeRequest) returns (GetTypeResponse);
-  rpc getTypes (GetTypesRequest) returns (GetTypesResponse);
-
-  // Relationships
-  rpc getPartsForAnimal (GetPartsForAnimalRequest) returns (GetPartsForAnimalResponse);
-  rpc getTrayForPart (GetTrayForPartRequest) returns (GetTrayForPartResponse);
-  rpc getPartsOnTray (GetPartsOnTrayRequest) returns (GetPartsOnTrayResponse);
-  rpc getProductForTray (GetProductForTrayRequest) returns (GetProductForTrayResponse);
-  rpc getPartsForProduct (GetPartsForProductRequest) returns (GetPartsForProductResponse);
-}
