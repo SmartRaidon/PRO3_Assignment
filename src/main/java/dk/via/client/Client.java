@@ -7,7 +7,7 @@ import io.grpc.ManagedChannelBuilder;
 public class Client
 {
     public static void main(String[] args) {
-
+        new Client().run();
     }
     private ManagedChannel managedChannel = ManagedChannelBuilder
             .forAddress("localhost", 1234)
