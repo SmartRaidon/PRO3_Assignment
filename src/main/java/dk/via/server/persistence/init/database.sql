@@ -10,23 +10,10 @@ DROP TABLE IF EXISTS product CASCADE;
 DROP TABLE IF EXISTS trayProduct CASCADE;
 
 CREATE TABLE IF NOT EXISTS animal (
-    type varchar(30),
     reg_num SERIAL,
+    type varchar(30),
     weight double precision,
     PRIMARY KEY (reg_num)
-);
-
-CREATE TABLE IF NOT EXISTS part (
-    reg_num SERIAL,
-    tray_num INT,
-    origin_num INT,
-    product_num INT,
-    type VARCHAR(50),
-    weight double precision,
-    PRIMARY KEY (reg_num),
-    FOREIGN KEY (origin_num) REFERENCES animal(reg_num),
-    FOREIGN KEY (tray_num) REFERENCES tray(tray_num),
-    FOREIGN KEY (product_num) REFERENCES product(product_num)
 );
 
 CREATE TABLE IF NOT EXISTS tray (
@@ -41,6 +28,19 @@ CREATE TABLE IF NOT EXISTS product (
     product_num SERIAL,
     type VARCHAR(50),
     PRIMARY KEY (product_num)
+);
+
+CREATE TABLE IF NOT EXISTS part (
+    reg_num SERIAL,
+    tray_num INT,
+    origin_num INT,
+    product_num INT,
+    type VARCHAR(50),
+    weight double precision,
+    PRIMARY KEY (reg_num),
+    FOREIGN KEY (origin_num) REFERENCES animal(reg_num),
+    FOREIGN KEY (tray_num) REFERENCES tray(tray_num),
+    FOREIGN KEY (product_num) REFERENCES product(product_num)
 );
 
 CREATE TABLE IF NOT EXISTS trayProduct (

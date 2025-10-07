@@ -5,16 +5,18 @@ import java.util.List;
 
 public class Tray {
     private int trayNumber;
+    private String partType;
     private double maxCapacity;
     private double currentWeight;
     private List<Part> parts;
 
-    public Tray(double maxCapacity, int trayNumber)
+    public Tray(int trayNumber, String partType, double maxCapacity, double currentWeight)
     {
         this.trayNumber = trayNumber;
+        this.partType = partType;
         this.maxCapacity = maxCapacity;
-        this.currentWeight = 0;
-        this.parts = new ArrayList<Part>();
+        this.currentWeight = currentWeight;
+        this.parts = new ArrayList<>();
     }
 
     public int getTrayNumber() {
@@ -25,7 +27,13 @@ public class Tray {
         this.trayNumber = trayNumber;
     }
 
+    public String getPartType() {
+        return partType;
+    }
 
+    public void setPartType(String partType) {
+        this.partType = partType;
+    }
 
     public double getMaxCapacity()
     {
