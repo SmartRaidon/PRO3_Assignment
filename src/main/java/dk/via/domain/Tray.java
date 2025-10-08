@@ -19,6 +19,14 @@ public class Tray {
         this.parts = new ArrayList<>();
     }
 
+    public Tray(double maxCapacity,int trayNum,  double currentWeight, List<Part> parts) {
+        this.trayNumber = trayNum;
+        this.maxCapacity = maxCapacity;
+        this.currentWeight = currentWeight;
+        this.parts = parts;
+    }
+
+
     public int getTrayNumber() {
         return trayNumber;
     }

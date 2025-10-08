@@ -14,6 +14,11 @@ public class Product {
         this.parts = new ArrayList<>();
     }
 
+    public Product(int productNumber, List<Part> parts) {
+        this.productNumber = productNumber;
+        this.parts = new ArrayList<>();
+    }
+
     public void addPart(Part part) {
         parts.add(part);
     }

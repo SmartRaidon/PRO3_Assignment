@@ -38,37 +38,37 @@ message DTOPart {
 }
 
 message DTOTray {
-  int32 trayNumber =1;
+  int32 trayNum =1;
   double maxCapacity =2;
   double currentWeight=3;
   repeated DTOPart parts =4; //That repeated is used for lists :)
 }
 
 message DTOProduct {
-  string productNumber = 1;
+  int32 productNum = 1;
   repeated DTOPart parts =2;
 }
 
 
-message GetAnimalRequest { string registrationNumber = 1; }
+message GetAnimalRequest { int32 registrationNumber = 1; }
 message GetAnimalResponse { DTOAnimal animal = 1; }
-
+//
 message GetAnimalsRequest {}
 message GetAnimalsResponse { repeated DTOAnimal animals = 1; }
-
-message GetPartRequest { string partNumber = 1; }
+//
+message GetPartRequest { int32 regNum = 1; }
 message GetPartResponse { DTOPart part = 1; }
-
+//
 message GetPartsRequest {}
 message GetPartsResponse { repeated DTOPart parts = 1; }
-
-message GetTrayRequest { string trayNumber = 1; }
+//
+message GetTrayRequest { int32 trayNum = 1; }
 message GetTrayResponse { DTOTray tray = 1; }
-
+//
 message GetTraysRequest {}
 message GetTraysResponse { repeated DTOTray trays = 1; }
-
-message GetProductRequest { string productNumber = 1; }
+//
+message GetProductRequest { int32 productNum = 1; }
 message GetProductResponse { DTOProduct product = 1; }
 
 message GetProductsRequest {}
