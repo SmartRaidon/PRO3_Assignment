@@ -1,6 +1,10 @@
 package dk.via.client;
 
+import dk.via.GetAnimalRequest;
+import dk.via.GetAnimalResponse;
 import dk.via.SlaughterHouseGrpc;
+import dk.via.domain.Animal;
+import dk.via.dto.DTOFactory;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -20,6 +24,18 @@ public class Client
 
 
         managedChannel.shutdown();
+    }
+
+
+    private Animal getAnimal(int regNumber){
+        try{
+            GetAnimalRequest request = DTOFactory.createGetAnimalRequest(regNumber);
+            GetAnimalResponse response = stub.getAnimal(request);
+            return DTOFactory.createAnimal(response.getAnimal());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
