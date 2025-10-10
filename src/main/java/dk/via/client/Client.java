@@ -31,7 +31,7 @@ public class Client
         try{
             GetAnimalRequest request = DTOFactory.createGetAnimalRequest(regNumber);
             GetAnimalResponse response = stub.getAnimal(request);
-            return DTOFactory.createAnimal(response.getAnimal());
+            return DTOFactory.createAnimal(response);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
