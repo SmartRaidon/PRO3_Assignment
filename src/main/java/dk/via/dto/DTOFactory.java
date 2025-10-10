@@ -68,6 +68,7 @@ public class DTOFactory
         .build();
   }
 
+
   public static GetAnimalResponse createAnimalResponse(Animal animal){
     return GetAnimalResponse.newBuilder()
         .setAnimal (createDTOAnimal(animal))
