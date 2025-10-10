@@ -28,10 +28,10 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
     }
     @Override
     public void getAnimal(GetAnimalRequest request, StreamObserver<GetAnimalResponse> responseObserver) {
-        int registrationNumber =request.getRegistrationNumber();
+
 
         try{
-
+            int registrationNumber =request.getRegistrationNumber();
             Animal animalToFind = animalDAO.getAnimalById(registrationNumber);
             if (animalToFind != null) {
                 GetAnimalResponse response = DTOFactory.createAnimalResponse(animalToFind);
