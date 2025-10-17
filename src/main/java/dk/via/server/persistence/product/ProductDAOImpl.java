@@ -39,13 +39,12 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public void create(Product product) {
+    public Product create(Product product) {
         System.out.println(product.toString());
         try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO pro3.product (product_num, type) VALUES (?, ?);");
-            statement.setInt(1, product.getProductNumber());
-            statement.setString(2, product.getType());
+                    "INSERT INTO pro3.product (type) VALUES (?);");
+            statement.setString(1, product.getType());
 
             int affectedRows = statement.executeUpdate();
 
@@ -62,9 +61,11 @@ public class ProductDAOImpl implements ProductDAO {
                     throw new SQLException("Error creating product");
                 }
             }
+            return product;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     @Override

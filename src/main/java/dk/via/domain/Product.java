@@ -8,6 +8,12 @@ public class Product {
     private String type;
     private List<Part> parts;
 
+    public Product() {
+        this.productNumber = -1;
+        this.type = "#DEFAULT#";
+        this.parts = new ArrayList<>();
+    }
+
     public Product(int productNumber, String type) {
         this.productNumber = productNumber;
         this.type = type;

@@ -6,22 +6,31 @@ import java.util.List;
 public class Tray {
     private int trayNumber;
     private String partType;
-    private double maxCapacity;
+    private double maxWeight;
     private double currentWeight;
     private List<Part> parts;
+
+    public Tray()
+    {
+        this.trayNumber = -1;
+        this.partType = "";
+        this.maxWeight = 0;
+        this.currentWeight = 0;
+        this.parts = new ArrayList<>();
+    }
 
     public Tray(int trayNumber, String partType, double maxCapacity, double currentWeight)
     {
         this.trayNumber = trayNumber;
         this.partType = partType;
-        this.maxCapacity = maxCapacity;
+        this.maxWeight = maxCapacity;
         this.currentWeight = currentWeight;
         this.parts = new ArrayList<>();
     }
 
     public Tray(double maxCapacity,int trayNum,  double currentWeight, List<Part> parts) {
         this.trayNumber = trayNum;
-        this.maxCapacity = maxCapacity;
+        this.maxWeight = maxCapacity;
         this.currentWeight = currentWeight;
         this.parts = parts;
     }
@@ -43,9 +52,9 @@ public class Tray {
         this.partType = partType;
     }
 
-    public double getMaxCapacity()
+    public double getMaxWeight()
     {
-        return maxCapacity;
+        return maxWeight;
     }
 
     public double getCurrentWeight()
@@ -58,9 +67,9 @@ public class Tray {
         return parts;
     }
 
-    public void setMaxCapacity(double maxCapacity)
+    public void setMaxWeight(double maxWeight)
     {
-        this.maxCapacity = maxCapacity;
+        this.maxWeight = maxWeight;
     }
 
     public void addWeight(double weight)
@@ -68,12 +77,12 @@ public class Tray {
 
         double sum=0;
         sum= currentWeight+weight;
-        if(sum < maxCapacity)
+        if(sum < maxWeight)
         {
             currentWeight = sum;
         }
         else {
-            System.out.println("Maximum capacity exceeded");
+            System.out.println("Maximum weight capacity exceeded!");
         }
     }
 
