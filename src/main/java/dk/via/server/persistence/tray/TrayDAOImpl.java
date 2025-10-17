@@ -39,15 +39,14 @@ public class TrayDAOImpl implements TrayDAO {
     }
 
     @Override
-    public void create(Tray tray) {
+    public Tray create(Tray tray) {
         System.out.println(tray.toString());
         try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO pro3.tray (tray_num, part_type, capacity, current_weight) VALUES (?, ?, ?, ?);");
-            statement.setInt(1, tray.getTrayNumber());
-            statement.setString(2, tray.getPartType());
-            statement.setDouble(3, tray.getMaxCapacity());
-            statement.setDouble(4, tray.getCurrentWeight());
+                    "INSERT INTO pro3.tray (part_type, capacity, current_weight) VALUES (?, ?, ?);");
+            statement.setString(1, tray.getPartType());
+            statement.setDouble(2, tray.getMaxWeight());
+            statement.setDouble(3, tray.getCurrentWeight());
 
             int affectedRows = statement.executeUpdate();
 
@@ -64,9 +63,11 @@ public class TrayDAOImpl implements TrayDAO {
                     throw new SQLException("Error creating tray");
                 }
             }
+            return tray;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     @Override
@@ -114,7 +115,7 @@ public class TrayDAOImpl implements TrayDAO {
                     "UPDATE pro3.tray SET part_type = ?, capacity = ?, current_weight = ? WHERE tray_num = ?"
             );
             statement.setString(1, tray.getPartType());
-            statement.setDouble(2, tray.getMaxCapacity());
+            statement.setDouble(2, tray.getMaxWeight());
             statement.setDouble(3, tray.getCurrentWeight());
             statement.setInt(4, tray.getTrayNumber());
             statement.executeUpdate();
