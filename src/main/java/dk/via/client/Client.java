@@ -1,34 +1,64 @@
 package dk.via.client;
 
-import dk.via.GetAnimalRequest;
-import dk.via.GetAnimalResponse;
-import dk.via.SlaughterHouseGrpc;
+import dk.via.*;
 import dk.via.domain.Animal;
+import dk.via.domain.Product;
+import dk.via.domain.Tray;
 import dk.via.dto.DTOFactory;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+
+import java.util.List;
 
 public class Client
 {
     public static void main(String[] args) {
         new Client().run();
     }
-    private ManagedChannel managedChannel = ManagedChannelBuilder
+
+    private final ManagedChannel managedChannel = ManagedChannelBuilder
             .forAddress("localhost", 1234)
             .usePlaintext()
             .build();
-    private SlaughterHouseGrpc.SlaughterHouseBlockingStub stub =
+
+    private final SlaughterHouseGrpc.SlaughterHouseBlockingStub stub =
             SlaughterHouseGrpc.newBlockingStub(managedChannel);
-    private void run(){
 
+    private void run() {
 
+        System.out.println("--- GET ONE ANIMAL by id ---");
+        Animal a = getAnimal(2);
+        if (a != null)
+            System.out.println(a.getType() + " " + a.getRegNumber() + " " + a.getWeight());
+
+        System.out.println("\n--- GET ALL ANIMALS ---");
+        List<Animal> animals = getAnimals();
+        for (Animal an : animals)
+            System.out.println(an.getType() + " " + an.getRegNumber() + " " + an.getWeight());
+
+        System.out.println("\n--- GET ONE PRODUCT by id---");
+        Product p = getProduct(3);
+        if (p != null)
+            System.out.println("Product #" + p.getProductNumber() + " (parts: " + p.getParts().size() + ")");
+
+        System.out.println("\n--- GET ALL PRODUCTS ---");
+        List<Product> products = getProducts();
+        System.out.println("Total products: " + products.size());
+
+        System.out.println("\n--- GET ONE TRAY by id ---");
+        Tray t = getTray(1);
+        if (t != null)
+            System.out.println("Tray #" + t.getTrayNumber() + " weight: " + t.getCurrentWeight());
+
+        System.out.println("\n--- GET ALL TRAYS ---");
+        List<Tray> trays = getTrays();
+        System.out.println("Total trays: " + trays.size());
 
         managedChannel.shutdown();
     }
 
-
-    private Animal getAnimal(int regNumber){
-        try{
+    private Animal getAnimal(int regNumber) {
+        try {
             GetAnimalRequest request = DTOFactory.createGetAnimalRequest(regNumber);
             GetAnimalResponse response = stub.getAnimal(request);
             return DTOFactory.createAnimal(response);
@@ -37,5 +67,61 @@ public class Client
             return null;
         }
     }
+
+    private List<Animal> getAnimals() {
+        try {
+            GetAnimalsRequest request = DTOFactory.createGetAnimalsRequest();
+            GetAnimalsResponse response = stub.getAnimals(request);
+            return DTOFactory.createAnimals(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    private Product getProduct(int productNum) {
+        try {
+            GetProductRequest request = DTOFactory.createGetProductRequest(productNum);
+            GetProductResponse response = stub.getProduct(request);
+            return DTOFactory.createProduct(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<Product> getProducts() {
+        try {
+            GetProductsRequest request = DTOFactory.createProductsRequest();
+            GetProductsResponse response = stub.getProducts(request);
+            return DTOFactory.createProducts(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    private Tray getTray(int trayNum) {
+        try {
+            GetTrayRequest request = DTOFactory.createGetTrayRequest(trayNum);
+            GetTrayResponse response = stub.getTray(request);
+            return DTOFactory.createTray(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<Tray> getTrays() {
+        try {
+            GetTraysRequest request = DTOFactory.createTraysRequest();
+            GetTraysResponse response = stub.getTrays(request);
+            return DTOFactory.createTrays(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
 
 }
