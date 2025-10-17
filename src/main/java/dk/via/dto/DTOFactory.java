@@ -34,7 +34,7 @@ public class DTOFactory
   {
     DTOTray.Builder builder = DTOTray.newBuilder()
         .setTrayNum(tray.getTrayNumber())
-        .setMaxCapacity(tray.getMaxCapacity())
+        .setMaxCapacity(tray.getMaxWeight())
         .setCurrentWeight(tray.getCurrentWeight());
     if (tray.getParts() != null && !tray.getParts().isEmpty())
     {
