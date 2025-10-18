@@ -51,7 +51,12 @@ CREATE TABLE IF NOT EXISTS trayProduct (
     FOREIGN KEY (product_num) REFERENCES product
 );
 
-INSERT INTO pro3.animal (type, reg_num, weight) VALUES ('cow', 2, 100.00);
+INSERT INTO pro3.animal (type, weight) VALUES ('cow', 100.00);
+INSERT INTO pro3.animal (type, weight) VALUES ('bull', 100.00);
+INSERT INTO pro3.tray (part_type, capacity, current_weight) VALUES ('leg', 100.00, 10.00);
+INSERT INTO pro3.product (type) VALUES ('leg');
+INSERT INTO pro3.part (tray_num, origin_num, product_num, type, weight) VALUES (1, 1, 1, 'leg', 10.00);
+INSERT INTO pro3.trayProduct (tray_num, product_num) VALUES (1, 1);
 INSERT INTO pro3.tray (PART_TYPE, CAPACITY, CURRENT_WEIGHT) VALUES ('leg',100,50);
 INSERT INTO pro3.product (product_num, type) VALUES (3,'leg');
 INSERT INTO pro3.trayproduct (tray_num, product_num) VALUES (1,3);

@@ -37,7 +37,7 @@ public class Client
             System.out.println(an.getType() + " " + an.getRegNumber() + " " + an.getWeight());
 
         System.out.println("\n--- GET ONE PRODUCT by id---");
-        Product p = getProduct(3);
+        Product p = getProduct(1);
         if (p != null)
             System.out.println("Product #" + p.getProductNumber() + " (parts: " + p.getParts().size() + ")");
 

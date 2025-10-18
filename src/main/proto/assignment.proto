@@ -18,11 +18,27 @@ service SlaughterHouse{
   rpc getProduct (GetProductRequest) returns (GetProductResponse);
   rpc getProducts (GetProductsRequest) returns (GetProductsResponse);
 
-    }
+  rpc GetAnimalsForProduct (GetAnimalsForProductRequest) returns (GetAnimalsForProductResponse);
+  rpc GetProductsForAnimal (GetProductsForAnimalRequest) returns (GetProductsForAnimalResponse);
+}
 
+message GetAnimalsForProductRequest {
+  int32 productNum = 1;
+}
+
+message GetAnimalsForProductResponse {
+  repeated int32 animalNums = 1;
+}
+
+message GetProductsForAnimalRequest {
+  int32 animalNum = 1;
+}
+
+message GetProductsForAnimalResponse {
+  repeated int32 productNums = 1;
+}
 
 message DTOAnimal {
-
   string type = 1;
   double weight = 2;
   int32 registrationNumber = 3;

@@ -18,6 +18,7 @@ public class Server
     private PartDAO partDAO = PartDAOImpl.getInstance();
 
     public static void main(String[] args) throws Exception {
+        System.out.println("Server started...");
         new Server().run();
     }
 
