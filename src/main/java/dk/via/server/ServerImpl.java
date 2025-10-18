@@ -7,6 +7,7 @@ import dk.via.domain.Product;
 import dk.via.domain.Tray;
 import dk.via.dto.DTOFactory;
 import dk.via.server.persistence.animal.AnimalDAO;
+import dk.via.server.persistence.animalProduct.AnimalProductDAO;
 import dk.via.server.persistence.part.PartDAO;
 import dk.via.server.persistence.product.ProductDAO;
 import dk.via.server.persistence.tray.TrayDAO;
@@ -20,11 +21,13 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
     private TrayDAO trayDAO;
     private PartDAO partDAO;
     private ProductDAO productDAO;
-    ServerImpl(AnimalDAO animalDAO,TrayDAO trayDAO,PartDAO partDAO,ProductDAO productDAO) {
+    private AnimalProductDAO ApDAO;
+    ServerImpl(AnimalDAO animalDAO,TrayDAO trayDAO,PartDAO partDAO,ProductDAO productDAO,AnimalProductDAO AnimalProductDAO) {
         this.animalDAO = animalDAO;
         this.trayDAO = trayDAO;
         this.partDAO = partDAO;
         this.productDAO = productDAO;
+        ApDAO = AnimalProductDAO;
     }
     @Override
     public void getAnimal(GetAnimalRequest request, StreamObserver<GetAnimalResponse> responseObserver) {
@@ -180,6 +183,38 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
         }
     }
 
+    @Override
+    public void getAnimalsForProduct(GetAnimalsForProductRequest request, StreamObserver<GetAnimalsForProductResponse> responseObserver) {
+        try{
+        int productId = request.getProductNum();
+        List<Integer> listAnimalsId = ApDAO.getAnimalsByProduct(productId);
+        if (!listAnimalsId.isEmpty()) {
+            GetAnimalsForProductResponse respoonse  = DTOFactory.createGetAnimalsForProductResponse(listAnimalsId);
+            responseObserver.onNext(respoonse);
 
+        }else responseObserver.onError(new Exception("No animals found can be empty or something xd wrong with product numa"));
+            responseObserver.onCompleted();
+       }catch (Exception e){
+            e.printStackTrace();
+            responseObserver.onError(e);
+        }
+    }
 
+    @Override
+    public void getProductsForAnimal(GetProductsForAnimalRequest request, StreamObserver<GetProductsForAnimalResponse> responseObserver) {
+        try{
+
+            int animalId = request.getAnimalNum();
+            List<Integer> productIds = ApDAO.getProductsByAnimal(animalId);
+            if (!productIds.isEmpty()) {
+            GetProductsForAnimalResponse response = DTOFactory.createGetProductsForAnimalResponse(productIds);
+            responseObserver.onNext(response);
+
+            }else responseObserver.onError(new Exception("Probably wrong animal id"));
+            responseObserver.onCompleted();
+        }catch (Exception e){
+            e.printStackTrace();
+            responseObserver.onError(e);
+        }
+    }
 }

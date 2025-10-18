@@ -2,6 +2,8 @@ package dk.via.server;
 
 import dk.via.server.persistence.animal.AnimalDAO;
 import dk.via.server.persistence.animal.AnimalDAOImpl;
+import dk.via.server.persistence.animalProduct.AnimalProductDAO;
+import dk.via.server.persistence.animalProduct.ApDAOImpl;
 import dk.via.server.persistence.part.PartDAO;
 import dk.via.server.persistence.part.PartDAOImpl;
 import dk.via.server.persistence.product.ProductDAO;
@@ -16,6 +18,7 @@ public class Server
     private TrayDAO trayDAO = TrayDAOImpl.getInstance();
     private ProductDAO productDAO = ProductDAOImpl.getInstance();
     private PartDAO partDAO = PartDAOImpl.getInstance();
+    private AnimalProductDAO ApDAO = ApDAOImpl.getInstance();
 
     public static void main(String[] args) throws Exception {
         System.out.println("Server started...");
@@ -27,7 +30,7 @@ public class Server
 
         io.grpc.Server server = ServerBuilder
                 .forPort(1234)
-                .addService(new ServerImpl(animalDAO,trayDAO,partDAO,productDAO))
+                .addService(new ServerImpl(animalDAO,trayDAO,partDAO,productDAO,ApDAO))
                 .build();
         server.start();
         server.awaitTermination();
