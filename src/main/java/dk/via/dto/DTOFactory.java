@@ -253,10 +253,41 @@ public class DTOFactory
     return res;
   }
 
+  public static GetAnimalsForProductRequest createGetAnimalsForProductRequest(int productNum) {
+    return GetAnimalsForProductRequest.newBuilder()
+        .setProductNum(productNum)
+        .build();
+  }
+
+  public static GetAnimalsForProductResponse createGetAnimalsForProductResponse(List<Integer> animalNums) {
+    return GetAnimalsForProductResponse.newBuilder()
+        .addAllAnimalNums(animalNums)
+        .build();
+  }
+
+  public static GetProductsForAnimalRequest createGetProductsForAnimalRequest(int animalNum) {
+    return GetProductsForAnimalRequest.newBuilder()
+        .setAnimalNum(animalNum)
+        .build();
+  }
+
+  public static GetProductsForAnimalResponse createGetProductsForAnimalResponse(List<Integer> productNums) {
+    return GetProductsForAnimalResponse.newBuilder()
+        .addAllProductNums(productNums)
+        .build();
+  }
+
+  public static List<Integer> createAnimalNums(GetAnimalsForProductResponse response) {
+    return new ArrayList<>(response.getAnimalNumsList());
+  }
+
+  public static List<Integer> createProductNums(GetProductsForAnimalResponse response) {
+    return new ArrayList<>(response.getProductNumsList());
+  }
+
+  }
 
 
 
 
 
-
-}
