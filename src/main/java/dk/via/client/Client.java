@@ -2,6 +2,7 @@ package dk.via.client;
 
 import dk.via.*;
 import dk.via.domain.Animal;
+import dk.via.domain.Part;
 import dk.via.domain.Product;
 import dk.via.domain.Tray;
 import dk.via.dto.DTOFactory;
@@ -26,10 +27,24 @@ public class Client
 
     private void run() {
 
-        System.out.println("--- GET ONE ANIMAL by id ---");
-        Animal a = getAnimal(2);
+        System.out.println("\n--- GET ONE ANIMAL by id ---");
+        Animal a = getAnimal(1);
         if (a != null)
             System.out.println(a.getType() + " " + a.getRegNumber() + " " + a.getWeight());
+
+        System.out.println("\n--- Animal 1 in these products: ---");
+        List<Integer> productNums = getProductsByAnimalID(1);
+        if(productNums != null) {
+            for (Integer pn : productNums)
+                System.out.print(pn + " ");
+        } else System.out.println("No products found for animal 1");
+
+        System.out.println("\n--- Animals included in product 1: ---");
+        List<Integer> animalNums = getAnimalsByProductID(1);
+        if(animalNums != null) {
+            for (Integer an : animalNums)
+                System.out.print(an + " ");
+        } else System.out.println("No animals found for product 1");
 
         System.out.println("\n--- GET ALL ANIMALS ---");
         List<Animal> animals = getAnimals();
@@ -55,6 +70,28 @@ public class Client
         System.out.println("Total trays: " + trays.size());
 
         managedChannel.shutdown();
+    }
+
+    private List<Integer> getProductsByAnimalID(int animalID) {
+        try {
+            GetProductsForAnimalRequest request = DTOFactory.createGetProductsForAnimalRequest(animalID);
+            GetProductsForAnimalResponse response = stub.getProductsForAnimal(request);
+            return DTOFactory.createProductNums(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<Integer> getAnimalsByProductID(int productID) {
+        try {
+            GetAnimalsForProductRequest request = DTOFactory.createGetAnimalsForProductRequest(productID);
+            GetAnimalsForProductResponse response = stub.getAnimalsForProduct(request);
+            return  DTOFactory.createAnimalNums(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private Animal getAnimal(int regNumber) {

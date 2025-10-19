@@ -38,10 +38,8 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
                 GetAnimalResponse response = DTOFactory.createAnimalResponse(animalToFind);
                 responseObserver.onNext(response);
             }else responseObserver.onError(
-                    new Exception("Animal not found for registration number something went wrong BRO: " + registrationNumber)
-            );
-            responseObserver.onCompleted();
-
+                    new Exception("Animal not found for registration number something went wrong BRO: " + registrationNumber));
+                responseObserver.onCompleted();
         }catch (Exception e){
             e.printStackTrace();
             responseObserver.onError(e);
@@ -60,10 +58,8 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
                 GetAnimalsResponse response = DTOFactory.createGetAnimalsResponse(animals);
                 responseObserver.onNext(response);
             }else responseObserver.onError(
-                    new Exception("No animals list found can be empty or something xd")
-            );
-
-            responseObserver.onCompleted();
+                    new Exception("No animals list found can be empty or something xd"));
+                responseObserver.onCompleted();
         }catch (Exception e){
             e.printStackTrace();
             responseObserver.onError(e);
@@ -81,13 +77,9 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
             Part partToFind = partDAO.getPartById(request.getRegNum());
             if (partToFind != null) {
                 GetPartResponse response = DTOFactory.createGetPartResponse(partToFind);
-            responseObserver.onNext(response);
-            }else responseObserver.onError(
-                    new Exception("Cannot find part, probably wrong registration number")
-            );
-
+                responseObserver.onNext(response);
+            }else responseObserver.onError(new Exception("Cannot find part, probably wrong registration number"));
             responseObserver.onCompleted();
-
         }catch (Exception e){
             e.printStackTrace();
             responseObserver.onError(e);
@@ -104,9 +96,7 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
             if (!partsList.isEmpty()) {
                 GetPartsResponse response = DTOFactory.createGetPartsResponse(partsList);
                 responseObserver.onNext(response);
-
             }else responseObserver.onError( new Exception("No parts list found can be empty or something xd"));
-
             responseObserver.onCompleted();
         }catch (Exception e){
             e.printStackTrace();
@@ -127,8 +117,7 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
 
 
              }else responseObserver.onError(new Exception("Cannot find tray with given regnumber "+ request.getTrayNum()));
-                responseObserver.onCompleted();
-
+             responseObserver.onCompleted();
          }catch (Exception e){
              e.printStackTrace();
              responseObserver.onError(e);
@@ -145,7 +134,6 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
                 responseObserver.onNext(response);
             }else responseObserver.onError( new Exception("No trays found can be empty or something xd"));
             responseObserver.onCompleted();
-
         }catch (Exception e){
             e.printStackTrace();
             responseObserver.onError(e);
@@ -161,7 +149,7 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
                 responseObserver.onNext(response);
 
             }else responseObserver.onError( new Exception("Cannot find product with given regnumber "+ request.getProductNum()));
-                responseObserver.onCompleted();
+            responseObserver.onCompleted();
         } catch (Exception e) {
            e.printStackTrace();
            responseObserver.onError(e);
@@ -171,12 +159,12 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
     @Override
     public void getProducts(GetProductsRequest request, StreamObserver<GetProductsResponse> responseObserver) {
         try{
-        List<Product> productsList = productDAO.getAll();
-        if (!productsList.isEmpty()) {
-            GetProductsResponse response = DTOFactory.createGetProductsResponse(productsList);
-            responseObserver.onNext(response);
-        }else responseObserver.onError( new Exception("No products found, can be empty or something xd"));
-        responseObserver.onCompleted();
+            List<Product> productsList = productDAO.getAll();
+            if (!productsList.isEmpty()) {
+                GetProductsResponse response = DTOFactory.createGetProductsResponse(productsList);
+                responseObserver.onNext(response);
+            }else responseObserver.onError( new Exception("No products found, can be empty or something xd"));
+            responseObserver.onCompleted();
         } catch (Exception e) {
             e.printStackTrace();
             responseObserver.onError(e);
@@ -186,13 +174,12 @@ public class ServerImpl extends SlaughterHouseGrpc.SlaughterHouseImplBase {
     @Override
     public void getAnimalsForProduct(GetAnimalsForProductRequest request, StreamObserver<GetAnimalsForProductResponse> responseObserver) {
         try{
-        int productId = request.getProductNum();
-        List<Integer> listAnimalsId = ApDAO.getAnimalsByProduct(productId);
-        if (!listAnimalsId.isEmpty()) {
-            GetAnimalsForProductResponse respoonse  = DTOFactory.createGetAnimalsForProductResponse(listAnimalsId);
-            responseObserver.onNext(respoonse);
-
-        }else responseObserver.onError(new Exception("No animals found can be empty or something xd wrong with product numa"));
+            int productId = request.getProductNum();
+            List<Integer> listAnimalsId = ApDAO.getAnimalsByProduct(productId);
+            if (!listAnimalsId.isEmpty()) {
+                GetAnimalsForProductResponse respoonse  = DTOFactory.createGetAnimalsForProductResponse(listAnimalsId);
+                responseObserver.onNext(respoonse);
+            }else responseObserver.onError(new Exception("No animals found can be empty or something xd wrong with product numa"));
             responseObserver.onCompleted();
        }catch (Exception e){
             e.printStackTrace();
